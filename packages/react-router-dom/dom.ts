@@ -91,7 +91,7 @@ export function createSearchParams(
 }
 
 export function getSearchParamsForLocation(
-  locationSearch: string,
+  locationSearch: URLSearchParams | string,
   defaultSearchParams: URLSearchParams | null
 ) {
   let searchParams = createSearchParams(locationSearch);

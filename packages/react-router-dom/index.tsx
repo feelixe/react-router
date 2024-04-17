@@ -1621,7 +1621,7 @@ export function useFormAction(
 
   if ((!action || action === ".") && match.route.index) {
     path.search = path.search
-      ? path.search.replace(/^\?/, "?index&")
+      ? path.search.toString().replace(/^\?/, "?index&")
       : "?index";
   }
 

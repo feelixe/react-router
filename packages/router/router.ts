@@ -3696,10 +3696,10 @@ function normalizeTo(
     (to == null || to === "" || to === ".") &&
     activeRouteMatch &&
     activeRouteMatch.route.index &&
-    !hasNakedIndexQuery(path.search)
+    !hasNakedIndexQuery(path.search.toString())
   ) {
     path.search = path.search
-      ? path.search.replace(/^\?/, "?index&")
+      ? path.search.toString().replace(/^\?/, "?index&")
       : "?index";
   }
 
@@ -3856,7 +3856,7 @@ function normalizeNavigateOptions(
   // On GET navigation submissions we can drop the ?index param from the
   // resulting location since all loaders will run.  But fetcher GET submissions
   // only run a single loader so we need to preserve any incoming ?index params
-  if (isFetcher && parsedPath.search && hasNakedIndexQuery(parsedPath.search)) {
+  if (isFetcher && parsedPath.search && hasNakedIndexQuery(parsedPath.search.toString())) {
     searchParams.append("index", "");
   }
   parsedPath.search = `?${searchParams}`;
@@ -5096,7 +5096,7 @@ function getTargetMatch(
     typeof location === "string" ? parsePath(location).search : location.search;
   if (
     matches[matches.length - 1].route.index &&
-    hasNakedIndexQuery(search || "")
+    hasNakedIndexQuery(search?.toString() || "")
   ) {
     // Return the leaf index route when index is present
     return matches[matches.length - 1];

@@ -41,7 +41,7 @@ export interface Path {
   /**
    * A URL search string, beginning with a ?.
    */
-  search: string;
+  search: string | URLSearchParams;
 
   /**
    * A URL fragment identifier, beginning with a #.
@@ -559,8 +559,9 @@ export function createPath({
   search = "",
   hash = "",
 }: Partial<Path>) {
-  if (search && search !== "?")
-    pathname += search.charAt(0) === "?" ? search : "?" + search;
+  const searchParams = search instanceof URLSearchParams ? search.toString() : search
+  if (searchParams && searchParams !== "?")
+    pathname += searchParams.charAt(0) === "?" ? searchParams : "?" + searchParams;
   if (hash && hash !== "#")
     pathname += hash.charAt(0) === "#" ? hash : "#" + hash;
   return pathname;

@@ -1199,6 +1199,7 @@ export function resolveTo(
     to = parsePath(toArg);
   } else {
     to = { ...toArg };
+    const search = to.search?.toString()
 
     invariant(
       !to.pathname || !to.pathname.includes("?"),
@@ -1209,7 +1210,7 @@ export function resolveTo(
       getInvalidPathError("#", "pathname", "hash", to)
     );
     invariant(
-      !to.search || !to.search.includes("#"),
+      !search || !search.includes("#"),
       getInvalidPathError("#", "search", "hash", to)
     );
   }
@@ -1296,12 +1297,16 @@ export const normalizePathname = (pathname: string): string =>
 /**
  * @private
  */
-export const normalizeSearch = (search: string): string =>
-  !search || search === "?"
+export const normalizeSearch = (search: string | URLSearchParams): string => {
+  const searchParams = search.toString()
+  return (
+    !searchParams || searchParams === "?"
     ? ""
-    : search.startsWith("?")
-    ? search
-    : "?" + search;
+    : searchParams.startsWith("?")
+    ? searchParams
+    : "?" + searchParams
+  )
+}
 
 /**
  * @private
